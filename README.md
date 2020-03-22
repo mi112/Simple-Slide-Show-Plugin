@@ -22,11 +22,11 @@
   
 ## Screenshots :
 #### Plugin settings page :
-![Plugin settings page]()
+![Plugin settings page](lib/public/images/01-slideshow-settings.png)
 
 #### Use of Shortcode: [myslideshow] :
-![Use of Shortcode]()
+![Use of Shortcode](lib/public/images/02-use-of-shortcode.png)
 
 #### Slideshow frontend demo :
-![Slideshow frontend demo]()
+![Slideshow frontend demo](lib/public/images/03-slideshow-frontend-demo.png)
 
