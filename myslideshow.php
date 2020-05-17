@@ -1,17 +1,29 @@
 <?php
+/**
+ * My Slide Show
+ *
+ * Plugin Name: My Slide Show
+ * Plugin URI:  https://github.com/mi112/my-slide-show
+ * Description: This plugin provides functionality to create and display slideshows through shortcode.
+ * Version:     1.0.1
+ * Requires at least: 5.2
+ * Tested Up to: 5.4.1
+ * Requires PHP: 7.0
+ * Author:      Mittala Nandle
+ * Author URI:  https://www.mittala.com/
+ * License:     GPLv2 or later
+ * License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * Text Domain: my-slide-show
+ * Domain Path: /languages
+ */
 
-/*
-Plugin Name: My Slide Show
-Version : 1.0.0
-Description: This plugin provides functionality to create and display slideshows through shortcodes 
-Author: Mittala Nandle
-*/
+
+
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
- exit;
+  die( 'Invalid request.' );
 }
-
 /*-------------------------------------------------------------------
 
 INCLUDE SCRIPTS/STYLES FOR FRONTEND
@@ -19,12 +31,18 @@ INCLUDE SCRIPTS/STYLES FOR FRONTEND
 ---------------------------------------------------------------------*/
 
 add_action( 'wp_enqueue_scripts', 'mss_front_scripts' );
+
 function mss_front_scripts() {
+
  	//css, js for slideshow
+
  	wp_enqueue_style( 'mss-slideshow-style', plugins_url('lib/public/css/mss-public-styles.css', __FILE__) );
  	wp_enqueue_style( 'bootstrap-css', plugins_url('lib/public/css/bootstrap.min.css', __FILE__) );
  	wp_enqueue_script( 'bootstrap-js', plugins_url('lib/public/js/bootstrap.min.js', __FILE__ ), array('jquery'), null, false );
+
 }
+
+
 
 /*-------------------------------------------------------------------
 
@@ -36,11 +54,14 @@ function mss_include_scripts() {
 
 	//return if not 'MSS setting page'
 
-	if( empty( $_GET['page'] ) || "myslideshow-settings" !== $_GET['page'] ) { return; }
+	if( empty( $_GET['page'] ) || "my-slide-show" !== $_GET['page'] ) { return; }
+
+
 
 	if ( ! did_action( 'wp_enqueue_media' ) ) {
 
 		wp_enqueue_media();
+
 	}
 
  	//include upload media script
@@ -50,9 +71,14 @@ function mss_include_scripts() {
  	//include css for setting page
 
  	 wp_enqueue_style( 'mss-admin-style', plugins_url('lib/admin/css/mss-admin-styles.css', __FILE__) );
+
+
+
 }
 
 add_action( 'admin_enqueue_scripts', 'mss_include_scripts' );
+
+
 
 /*-------------------------------------------------------------------
 
@@ -62,7 +88,7 @@ CREATE 'MYSLIDESHOW' SETTIGNS PAGE
 
 function mss_menu_page(){
 
-    add_menu_page('My Slide Show', 'My Slide Show', 'administrator', 'myslideshow-settings', 'mss_menu_output' );
+    add_menu_page('My Slide Show', 'My Slide Show', 'administrator', 'my-slide-show', 'mss_menu_output' );
 
     add_action( 'admin_init', 'mss_save_settings' );
 
@@ -84,11 +110,19 @@ function mss_save_settings(){
 
 	];
 
+
+
 	foreach ($settings_options as $opt=>$val)
-    	{
-        	register_setting( 'myslideshow-settings-group', $opt,$val);
-    	}
+
+    {
+
+        register_setting( 'myslideshow-settings-group', $opt,$val);
+
+    }
+
 } 
+
+
 
 /*-------------------------------------------------------------------
 
@@ -105,27 +139,48 @@ function mss_menu_output(){  ?>
     <?php do_settings_sections( 'myslideshow-settings-group' ); ?>
 
 
-    <h2>My Slideshow</h2>
+
+    <h2>My Slide Show</h2>
 
     <input type="button" class="add_new_image" name="add_new_image" value="Add Images" >
 
+   
+
+
+
     	<div class="addslides-container">
-   		
+
+    		
+
     		<ul id="sortable">
-    	    <?php      		
-       		//get ids of saved images 
+
+    	    <?php
+
+        		
+
+        		//get ids of saved images 
 
             	$slide_ids = get_option( 'slide_id' );                
-              
+
+               
+
              	if(!empty($slide_ids)){
 
+
+
              		//display saved images
+
              		foreach($slide_ids as $key=>$value){
 
+
+
              			//todo: condition if source is unknown
+
              			if(wp_get_attachment_url($value))
+
              			{
-             				echo "<li class='slide-container '>"
+
+             			echo "<li class='slide-container '>"
 
              			 	."<span class='remove-this-slide'><b>X</b></span>"
 
@@ -134,23 +189,43 @@ function mss_menu_output(){  ?>
              				."<input type='hidden' name='slide_id[]' value='".$value."' >"
 
              				."</li>";
+
              			}
+
              		}
+
              	}
+
              	else{
+
              		echo "<span class='no-images-yet'>Images are not added yet!</span>";
+
              	}
+
+
 
              	?>
 
              </ul>
+
     	</div>
+
     
+
  	<?php  submit_button(); ?>
- 	</form>
+
+   
+
+	</form>
+
+	
+
 <?php
 
 }
+
+
+
 /*-------------------------------------------------------------------
 
 CREATE SHORTCODE TO DISPLAY SLIDESHOW
@@ -158,15 +233,26 @@ CREATE SHORTCODE TO DISPLAY SLIDESHOW
 ---------------------------------------------------------------------*/
 
 function myslideshow_output() {
-  
+
+   
+
    	$slide_ids = get_option( 'slide_id' );
+
    	$return='';
+
+
 
    //check if images are selected for slideshow
 
   	if(!empty($slide_ids))
+
   	{
+
+
+
   		$return="<div id='myslideshow' class='carousel slide' data-ride='carousel'>";
+
+
 
   		//ADD INDICATORS
 
@@ -174,20 +260,31 @@ function myslideshow_output() {
 
   		$i=0;
 
-  		foreach($slide_ids as $key=>$value)
-		{   			
+  		foreach($slide_ids as $key=>$value){
+
+   			
+
    			$return=$return."<li data-target='#myslideshow' data-slide-to='".$i."'";
 
    			if($i==0)
+
    			{
+
    				$return=$return."class='active'";
+
    			}
 
    			$return=$return."></li>";
-     			$i++;
+
+
+
+     		$i++;
+
   		}
 
   		$return=$return."</ol>";
+
+
 
   		//ADD SLIDER WRAPPERS	
 
@@ -195,36 +292,60 @@ function myslideshow_output() {
 
   		$return=$return."<div class='carousel-inner'>";
 
-   		foreach($slide_ids as $key=>$value)
-		{
+
+
+   		foreach($slide_ids as $key=>$value){
+
    			$return=$return."<div class='carousel-item";
 
    			if($j==0)
+
    			{
+
    				$return=$return." active";
+
    			}
+
    			$j++;
+
    			$return=$return."'><img class='mss-slide' src='".wp_get_attachment_url($value)."' > 
+
    			</div>";
+
   		}
 
   		$return=$return."</div>";//end - inner-carousel-items
 
+
+
   		//ADD LEFT-RIGHT CONTROLERS
 
   		$return=$return."<a class='carousel-control-prev' href='#myslideshow' data-slide='prev'>
-				  			<span class='carousel-control-prev-icon'></span>				  		
+
+				  			<span class='carousel-control-prev-icon'></span>
+
+				  		
 				  		</a>
+
 				  		<a class='carousel-control-next' href='#myslideshow' data-slide='next'>
+
 				  			<span class='carousel-control-next-icon'></span>
+
 				  		</a>";
 
+
   		$return=$return."</div>";//end - carousel-container
+
     
+
 	}//end - check if images are selected for slideshow
 
+
+
    return $return;
+
 }
+
 add_shortcode( 'myslideshow', 'myslideshow_output' );
 
 ?>
