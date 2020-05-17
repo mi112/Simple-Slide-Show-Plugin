@@ -11,7 +11,7 @@
 >2. 'bootstrap.css' (Path: /lib/public/js/bootstrap.css)
 
 ## Installation and Usage :
->1. Upload 'My Slideshow' directory to '/wp-content/plugins/' 
+>1. Upload 'my-slide-show' directory to '/wp-content/plugins/' 
 >2. Activate 'My Slideshow' from Plugins page
 >3. Visit 'My Slide Show > ' to add/remove images from slideshow 
 >4. Use shortcode [myslideshow] on any page/post to display slideshow
