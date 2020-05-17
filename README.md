@@ -1,5 +1,5 @@
-# WordPress Slideshow Plugin
-  This repository contains rtCamp Wordpress Engineer Challenge-2a: WordPress-Slideshow Plugin
+# My Slide Show Plugin
+  This repository contains rtCamp Wordpress Engineer Challenge-2a: WordPress Slideshow 
 
 ## Features provided by this plugin :
 * Add/remove images from plugin settings page
