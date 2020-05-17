@@ -1,7 +1,7 @@
 === My Slide Show ===
 
 Contributors: Mittala Nandle
-Tags: custom fields, contributors field
+Tags: slideshow
 Requires at least: 5.2
 Tested up to: 5.4.1
 Stable tag: 1.0.1
