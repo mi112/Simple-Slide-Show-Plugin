@@ -19,6 +19,10 @@
 ##  Link of working plugin demo :
 
 ###  **https://www.mittala.com/wp-challenge/slideshow-demo/**
+
+## Login Details :
+> Username: test-user-01
+> Password : test-user-01
   
 ## Screenshots :
 #### Plugin settings page :
